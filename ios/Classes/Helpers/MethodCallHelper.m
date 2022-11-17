@@ -18,9 +18,15 @@
         int64_t callbackDispatcher = [[arguments objectForKey:kArgCallbackDispatcher] longLongValue];
         [delegate startLocatorService:callbackDispatcher];
         result(@(YES));
-    } else if ([kMethodServiceInitialized isEqualToString:call.method]) {
+    } else if ([kMethodServiceToken isEqualToString:call.method]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *const tokenValue = [arguments objectForKey:kArgToken?];
+        [defaults setObject:@"token" forKey:tokenValue];
+    }
+     else if ([kMethodServiceInitialized isEqualToString:call.method]) {
         result(nil);
-    } else if ([kMethodPluginRegisterLocationUpdate isEqualToString:call.method]) {
+    }
+     else if ([kMethodPluginRegisterLocationUpdate isEqualToString:call.method]) {
         int64_t callbackHandle = [[arguments objectForKey:kArgCallback] longLongValue];
         int64_t initCallbackHandle = [[arguments objectForKey:kArgInitCallback] longLongValue];
         NSDictionary *initialDataDictionary = [arguments objectForKey:kArgInitDataCallback];

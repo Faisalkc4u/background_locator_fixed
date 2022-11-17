@@ -18,6 +18,7 @@ NSString *const kDistanceFilterKey = @"distance_filter_key";
 NSString *const kChannelId = @"app.yukams/locator_plugin";
 NSString *const kBackgroundChannelId = @"app.yukams/locator_plugin_background";
 
+NSString *const kMethodServiceToken = @"LocatorService.token";
 NSString *const kMethodServiceInitialized = @"LocatorService.initialized";
 NSString *const kMethodPluginInitializeService = @"LocatorPlugin.initializeService";
 NSString *const kMethodPluginRegisterLocationUpdate = @"LocatorPlugin.registerLocationUpdate";
@@ -27,6 +28,7 @@ NSString *const kMethodPluginIsServiceRunning = @"LocatorPlugin.isServiceRunning
 NSString *const kMethodPluginUpdateNotification = @"LocatorPlugin.updateNotification";
 
 NSString *const kArgLatitude = @"latitude";
+NSString *const kArgToken = @"token";
 NSString *const kArgLongitude = @"longitude";
 NSString *const kArgAccuracy = @"accuracy";
 NSString *const kArgAltitude = @"altitude";

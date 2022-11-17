@@ -21,6 +21,10 @@ class BackgroundLocator {
     await _channel.invokeMethod(Keys.METHOD_PLUGIN_INITIALIZE_SERVICE,
         {Keys.ARG_CALLBACK_DISPATCHER: callback.toRawHandle()});
   }
+  static Future<void> token(String token) async {
+    await _channel.invokeMethod(Keys.METHOD_SERVICE_TOKEN,
+        {Keys.ARG_AUTH_TOKEN: token});
+  }
 
   static WidgetsBinding? get _widgetsBinding => WidgetsBinding.instance;
 

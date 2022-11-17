@@ -4,6 +4,7 @@ class Keys {
       'app.yukams/locator_plugin_background';
 
   static const String METHOD_SERVICE_INITIALIZED = 'LocatorService.initialized';
+  static const String METHOD_SERVICE_TOKEN = 'LocatorService.token';
   static const String METHOD_PLUGIN_INITIALIZE_SERVICE =
       'LocatorPlugin.initializeService';
   static const String METHOD_PLUGIN_REGISTER_LOCATION_UPDATE =
@@ -17,6 +18,7 @@ class Keys {
   static const String METHOD_PLUGIN_UPDATE_NOTIFICATION =
       'LocatorPlugin.updateNotification';
 
+  static const String ARG_AUTH_TOKEN = 'token';
   static const String ARG_IS_MOCKED = 'is_mocked';
   static const String ARG_LATITUDE = 'latitude';
   static const String ARG_LONGITUDE = 'longitude';

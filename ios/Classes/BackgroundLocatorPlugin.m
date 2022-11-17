@@ -56,8 +56,11 @@ static BackgroundLocatorPlugin *instance = nil;
 // iOS will launch the app when new location received
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [self server];
     // Check to see if we're being launched due to a location event.
     if (launchOptions[UIApplicationLaunchOptionsLocationKey] != nil) {
+        
         // Restart the headless service.
         [self startLocatorService:[PreferencesManager getCallbackDispatcherHandle]];
         [PreferencesManager setObservingRegion:YES];
@@ -67,7 +70,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         [PreferencesManager setObservingRegion:NO];
         [_locationManager startUpdatingLocation];
     }
-    
+    [_locationManager startMonitoringSignificantLocationChanges];
     // Note: if we return NO, this vetos the launch of the application.
     return YES;
 }
@@ -79,10 +82,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 }
 
 -(void)applicationWillTerminate:(UIApplication *)application {
-    [self observeRegionForLocation:_lastLocation];
-    if([PreferencesManager isStopWithTerminate]){
-        [self removeLocator];
-    }
+    [_locationManager startMonitoringSignificantLocationChanges];
 }
 
 - (void) observeRegionForLocation:(CLLocation *)location {
@@ -106,6 +106,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (locations.count > 0) {
+        [self server];
         CLLocation* location = [locations objectAtIndex:0];
         [self prepareLocationMap: location];
         if([PreferencesManager isObservingRegion]) {
@@ -256,5 +257,40 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 - (BOOL)isStopWithTerminate{
     return [PreferencesManager isStopWithTerminate];
 }
+- (void) server
+{
+    
+    
+    NSError *error;
+    NSString *urlString = @"https://faisalkc4u.requestcatcher.com/bg";
+    NSURL *url = [NSURL URLWithString:urlString];
 
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+
+    NSString * parameterString = [NSString stringWithFormat:@"test"];
+
+
+    NSLog(@"%@",parameterString);
+
+    [request setHTTPMethod:@"POST"];
+
+    [request setURL:url];
+
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+
+    NSData *postData = [parameterString dataUsingEncoding:NSUTF8StringEncoding];
+
+    [request setHTTPBody:postData];
+
+    NSData *finalDataToDisplay = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+
+    NSMutableDictionary *abc = [NSJSONSerialization JSONObjectWithData: finalDataToDisplay
+                                                               options: NSJSONReadingMutableContainers
+
+                                                                error: &error];
+    NSLog(@"%@",abc);
+
+
+}
 @end
